@@ -45,6 +45,17 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void onSkipPressed() {
+    if (!isRunning) return;
+
+    setState(() {
+      totalPomodoros++;
+      totalSeconds = initialSeconds;
+      isRunning = false;
+    });
+    timer.cancel();
+  }
+
   String format(seconds) {
     Duration duration = Duration(seconds: seconds);
     String formattedTime =
@@ -73,17 +84,30 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Flexible(
           flex: 2,
-          child: Center(
-            child: IconButton(
-              iconSize: 120,
-              color: Theme.of(context).cardColor,
-              onPressed: isRunning ? onPausePressed : onStartPressed,
-              icon: Icon(
-                isRunning
-                    ? Icons.pause_circle_outline_rounded
-                    : Icons.play_circle_outline_rounded,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                iconSize: 120,
+                color: Theme.of(context).cardColor,
+                onPressed: isRunning ? onPausePressed : onStartPressed,
+                icon: Icon(
+                  isRunning
+                      ? Icons.pause_circle_outline_rounded
+                      : Icons.play_circle_outline_rounded,
+                ),
               ),
-            ),
+              IconButton(
+                iconSize: 60,
+                color: isRunning
+                    ? Theme.of(context).cardColor
+                    : Theme.of(context).cardColor.withOpacity(0.2),
+                onPressed: onSkipPressed,
+                icon: const Icon(
+                  Icons.skip_next_rounded,
+                ),
+              ),
+            ],
           ),
         ),
         Flexible(

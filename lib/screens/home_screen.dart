@@ -45,14 +45,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  String formatSeconds(int totalSeconds) {
-    int seconds = totalSeconds % 60;
-    int minutes = totalSeconds ~/ 60;
+  String format(seconds) {
+    Duration duration = Duration(seconds: seconds);
+    String formattedTime =
+        (duration.toString().split('.').first.substring(2, 7));
 
-    String formattedSec = seconds.toString().padLeft(2, '0');
-    String formattedMin = minutes.toString().padLeft(2, '0');
-
-    return '$formattedMin:$formattedSec';
+    return formattedTime;
   }
 
   @override
@@ -64,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
             alignment: Alignment.bottomCenter,
             child: Text(
-              formatSeconds(totalSeconds),
+              format(totalSeconds),
               style: TextStyle(
                 color: Theme.of(context).cardColor,
                 fontSize: 88,
